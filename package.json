@@ -5,6 +5,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "mongodb": "^3.1.13",
+    "paginate-array": "^2.1.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-router-dom": "^4.3.1",

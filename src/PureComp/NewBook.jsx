@@ -143,7 +143,7 @@ componentDidMount() {
         <label>
           Author:
           <select id="select" onChange={this.selectChange}>
-         {this.state.authorData.map(el=><option value={el.id}>{el.name}</option>)}
+         {this.state.authorData.map(el=><option value={el.id}>{el.name} {el.familyname}</option>)}
             {/* // type="text"
             // name="author"
             // placeholder="please enter the author"

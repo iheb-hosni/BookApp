@@ -2,15 +2,16 @@ import React, { Component } from "react";
 import "./App.css";
 import BooksList from "./PureComp/BooksList";
 import NewBook from "./PureComp/NewBook";
-import { BrowserRouter as Router, Route, Link , Switch} from "react-router-dom";
+import { Route, Link, Switch } from "react-router-dom";
 import axios from "axios";
 import NewAuthor from "./PureComp/NewAuthor";
 import AuthorListElem from "./PureComp/AuthorListElem";
-import AuthorBook from "./PureComp/AuthorBooksList"
- class App extends Component {
+import AuthorBook from "./PureComp/AuthorBooksList";
+import Pagination from "./PureComp/pagination"
+ const size = 2
+class App extends Component {
   constructor(prop) {
     super(prop);
-
     this.state = {
       books: [],
       idx: "",
@@ -19,22 +20,35 @@ import AuthorBook from "./PureComp/AuthorBooksList"
       price: "",
       isbn: "",
       description: "",
-      id:"",
+      id: "",
       // image:""
-      
+      totalPages: "",
+
+
     };
+
     // this.handleClick = this.handleClick.bind(this);
-    this.updateBookList=this.updateBookList.bind(this);
-    this.handleDelete=this.handleDelete.bind(this);
+    this.updateBookList = this.updateBookList.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     // this.deleteBook=this.deleteBook.bind(this)
     // this.handleChange=this.handleChange.bind(this)
     // this.handleAddAuthor=this.handleAddAuthor.bind(this)
   }
 
   async componentDidMount() {
-    
+    let skip = 0;
+    const pageSize = 2
+
     const response = await axios.get("http://localhost:3000/api/mybooks"
-    
+      , {
+        params: {
+          filter: {
+
+            "limit": pageSize,
+            "skip": skip
+          }
+        }
+      }
     );
     if (response.status === 200) {
       const books = [];
@@ -45,16 +59,17 @@ import AuthorBook from "./PureComp/AuthorBooksList"
           isbn: prop.isbn,
           price: prop.price,
           description: prop.description,
-          id:prop.id,
-          image:this.props.image
+          id: prop.id,
+
         };
         books.push(book);
       });
 
       this.setState({ books: books });
+      console.log(this.state.books)
     } else {
       // handle error
-      console.log(response.status);
+      // console.log(response.status);
     }
     /*
     try{
@@ -72,34 +87,53 @@ import AuthorBook from "./PureComp/AuthorBooksList"
 
   //   this.setState({ books: booksCopy });
   // }
-  
-  async handleDelete (idx,id) {
-    console.log(id)
-    const booksCopy=Array.from(this.state.books)
-   const response=await axios.delete(`http://localhost:3000/api/mybooks/${id}`)
-   if (response.status === 200) {
-       booksCopy.splice(idx, 1)
-       this.setState({books: booksCopy})
-// console.log(this.state.books)
- }
- else {alert (response.status)}
- }
-  
 
-  updateBookList = value =>{
-   this.setState({
-     books:value
-   })
+  async handleDelete(idx, id) {
+    console.log(id)
+    const booksCopy = Array.from(this.state.books)
+    const response = await axios.delete(`http://localhost:3000/api/mybooks/${id}`)
+    if (response.status === 200) {
+      booksCopy.splice(idx, 1)
+      this.setState({ books: booksCopy })
+      // console.log(this.state.books)
+    }
+    else { alert(response.status) }
   }
+
+
+  updateBookList = value => {
+    this.setState({
+      books: value
+    })
+  }
+  // handelPagination=e=>{
+  //   let skip =0;
+  //   const pageSize =2 ;
+  //   axios.get()
+
+  // }
+  async componentWillMount() {
+    const Response = await axios.get("http://localhost:3000/api/mybooks/count")
+    if (Response.status === 200) {
+      this.setState(
+        { totalPages: Math.ceil((Response.data.count) / size) }
+      )
+
+    }
+    console.log(this.state.totalPages)
+
+
+  }
+ 
   render() {
     return (
       <div className="App">
-        
-          <Switch>
+
+        <Switch>
           <div>
             <ul className="link">
               <li>
-                <Link to="/">Home</Link>
+                <Link to="/home">Home</Link>
               </li>
               <li>
                 <Link to="/new">NewBook</Link>
@@ -114,29 +148,29 @@ import AuthorBook from "./PureComp/AuthorBooksList"
 
             <hr />
 
-            <Route exact path="/" >
+            <Route exact path="/home" >
               <BooksList
                 books={this.state.books}
                 handleClick={this.handleClick}
                 handleChange={this.handleChange}
-                handleDelete={this. handleDelete}
-              />
+                handleDelete={this.handleDelete}
+              /> 
             </Route>
             <Route exact path="/new" component={NewBook}>
-            <NewBook updateBookList={(value)=>this.updateBookList(value)}/>
+              <NewBook updateBookList={(value) => this.updateBookList(value)} />
             </Route>
-          
-             
-            <Route exact path="/new-author" component={NewAuthor}>
+
+
+            <Route path="/new-author" component={NewAuthor}>
               {/* <NewAuthor 
               handleAddAuthor={this.handleAddAuthor}
               /> */}
-              </Route>
-              <Route exact path="/authorList" component={AuthorListElem}/>
-              <Route path="/authorbooks/:authorId" component={AuthorBook} />
+            </Route>
+            <Route path="/authorList" component={AuthorListElem} />
+            <Route path="/authorbooks/:authorId" component={AuthorBook} />
           </div>
-          </Switch>
-          <nav aria-label="Page navigation">
+        </Switch>
+        {/* <nav aria-label="Page navigation">
   <ul className="pagination">
     <li>
       <a href="#" aria-label="Previous">
@@ -153,9 +187,13 @@ import AuthorBook from "./PureComp/AuthorBooksList"
       </a>
     </li>
   </ul>
-</nav>
-        
-        {/**/}
+</nav> */}
+
+
+
+
+        <Pagination />
+ 
       </div>
     );
   }

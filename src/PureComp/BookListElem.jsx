@@ -5,8 +5,8 @@ class BookListElem extends Component {
     return (
       <div>
       <li>
-        {this.props.idx} | {this.props.title} |{this.props.author} |
-        {this.props.price}$ |{this.props.isbn}|{" "}|{<img src="http://localhost:3000/api/photos/profil/download/l'alchimiste.jpg"/>}
+        {this.props.idx} | {this.props.title}  |
+        {this.props.price}$ |{this.props.isbn}|{<img src="http://localhost:3000/api/photos/profil/download/l'alchimiste.jpg" alt="bookpicture"/>}
         <button className="btn"
           onClick={() => {
             this.props.handleDelete(this.props.idx , this.props.id);
