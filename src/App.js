@@ -154,7 +154,7 @@ class App extends Component {
     return (
       <div className="App">
 <Router>
-        <Switch>
+        
           <div>
             <ul className="link">
               <li>
@@ -172,7 +172,7 @@ class App extends Component {
             </ul>
 
             <hr />
-
+<Switch>
             <Route exact path="/home" >
               <BooksList
                 books={this.state.books}
@@ -185,10 +185,11 @@ class App extends Component {
                 // margin={5}
                 start={start}
                 end={end}
-                 
               /> 
+              
+              
             </Route>
-            <Route exact path="/new" component={NewBook}>
+            <Route  path="/new" component={NewBook}>
               <NewBook updateBookList={(value) => this.updateBookList(value)} />
             </Route>
 
@@ -200,8 +201,9 @@ class App extends Component {
             </Route>
             <Route path="/authorList" component={AuthorListElem} />
             <Route path="/authorbooks/:authorId" component={AuthorBook} />
+            </Switch>
           </div>
-        </Switch>
+        
         </Router>
         {/* <nav aria-label="Page navigation">
   <ul className="pagination">
@@ -234,7 +236,6 @@ class App extends Component {
          current={currentPage}
          onChangePage={this.changePage}
          margin={5}
- 
     />
  
       </div>

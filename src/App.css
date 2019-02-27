@@ -36,9 +36,7 @@
   list-style: none;
 
 }
-ul li a {
-  text-decoration: none
-}
+ 
 ul{
   list-style: none;
 }
@@ -49,7 +47,9 @@ img{
 .pagi{
   display: flex;
   list-style:none;
-  justify-content: center
+  justify-content: center;
+  cursor: pointer;
+  
 }
 .pagi li {
   height: 30px;
@@ -67,4 +67,7 @@ img{
 }
 .pagi li.active{
   background: #777;
+}
+a{
+  text-decoration: none !important
 }

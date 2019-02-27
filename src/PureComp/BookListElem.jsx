@@ -12,7 +12,7 @@ class BookListElem extends Component {
               </div>
             })} */}
         {this.props.idx} | {this.props.title}  |
-        {this.props.price}$ |{this.props.isbn}|{<img src="http://localhost:3000/api/photos/profil/download/l'alchimiste.jpg" alt="bookpicture"/>}
+        {this.props.price}$ |{this.props.isbn}|{<img src="http://localhost:3000/api/photos/profil/download/La Promesse.jpg" alt="bookpicture"/>}
         
         <button className="btn"
           onClick={() => {
