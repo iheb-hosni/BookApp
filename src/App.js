@@ -8,11 +8,14 @@ import NewAuthor from "./PureComp/NewAuthor";
 import AuthorListElem from "./PureComp/AuthorListElem";
 import AuthorBook from "./PureComp/AuthorBooksList";
 import Pagination from "./PureComp/pagination"
+import PaginationData from "./PureComp/paginationData2"
  const size = 2
+ 
 class App extends Component {
   constructor(prop) {
     super(prop);
     this.state = {
+      
       books: [],
       idx: "",
       title: "",
@@ -23,21 +26,22 @@ class App extends Component {
       id: "",
       // image:""
       totalPages: "",
-
-
+      currentPage: 0,
+    count: 0,
+    offset: 2
     };
 
     // this.handleClick = this.handleClick.bind(this);
     this.updateBookList = this.updateBookList.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     // this.deleteBook=this.deleteBook.bind(this)
-    // this.handleChange=this.handleChange.bind(this)
+    this.handleChange = this.handleChange.bind(this)
     // this.handleAddAuthor=this.handleAddAuthor.bind(this)
   }
 
   async componentDidMount() {
     let skip = 0;
-    const pageSize = 2
+    const pageSize = 0
 
     const response = await axios.get("http://localhost:3000/api/mybooks"
       , {
@@ -65,7 +69,10 @@ class App extends Component {
         books.push(book);
       });
 
-      this.setState({ books: books });
+      this.setState({ books: books ,
+        count:response.data.length,
+        // data:response.data
+      });
       console.log(this.state.books)
     } else {
       // handle error
@@ -87,7 +94,18 @@ class App extends Component {
 
   //   this.setState({ books: booksCopy });
   // }
+  handleChange = idx => {
+    const selectedBook = this.state.books[idx];
 
+    this.setState({
+      idx: idx,
+      title: selectedBook.title,
+      author: selectedBook.author,
+      price: selectedBook.price,
+      isbn: selectedBook.isbn,
+      description: selectedBook.description
+    });
+  };
   async handleDelete(idx, id) {
     console.log(id)
     const booksCopy = Array.from(this.state.books)
@@ -124,8 +142,15 @@ class App extends Component {
 
 
   }
- 
+  changePage = n => {
+    this.setState({
+      currentPage: n
+    });
+  };
   render() {
+    const { books, offset, currentPage, count } = this.state;
+    const start = currentPage * offset;
+    const end =  (+currentPage+1) * offset;
     return (
       <div className="App">
 
@@ -154,6 +179,13 @@ class App extends Component {
                 handleClick={this.handleClick}
                 handleChange={this.handleChange}
                 handleDelete={this.handleDelete}
+                // pages={Math.ceil(count / offset)}
+                // current={currentPage}
+                // onChangePage={this.changePage}
+                // margin={5}
+                // start={start}
+                // end={end}
+                 
               /> 
             </Route>
             <Route exact path="/new" component={NewBook}>
@@ -190,9 +222,19 @@ class App extends Component {
 </nav> */}
 
 
-
-
-        <Pagination />
+ <ul>
+          {books.length && books.slice(start,end).map((item, i) => {
+              return <li className="comment"  >{item.title}</li>;
+            })}
+        </ul>
+{/* <Pagination /> */}
+        <PaginationData
+         pages={Math.ceil(count / offset)}
+         current={currentPage}
+         onChangePage={this.changePage}
+         margin={5}
+ 
+    />
  
       </div>
     );
