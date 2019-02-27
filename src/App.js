@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import BooksList from "./PureComp/BooksList";
 import NewBook from "./PureComp/NewBook";
-import { Route, Link, Switch } from "react-router-dom";
+import {  BrowserRouter as Router , Route, Link, Switch } from "react-router-dom";
 import axios from "axios";
 import NewAuthor from "./PureComp/NewAuthor";
 import AuthorListElem from "./PureComp/AuthorListElem";
@@ -44,15 +44,15 @@ class App extends Component {
     const pageSize = 0
 
     const response = await axios.get("http://localhost:3000/api/mybooks"
-      , {
-        params: {
-          filter: {
+      // , {
+      //   params: {
+      //     filter: {
 
-            "limit": pageSize,
-            "skip": skip
-          }
-        }
-      }
+      //       "limit": pageSize,
+      //       "skip": skip
+      //     }
+      //   }
+      // }
     );
     if (response.status === 200) {
       const books = [];
@@ -153,7 +153,7 @@ class App extends Component {
     const end =  (+currentPage+1) * offset;
     return (
       <div className="App">
-
+<Router>
         <Switch>
           <div>
             <ul className="link">
@@ -183,8 +183,8 @@ class App extends Component {
                 // current={currentPage}
                 // onChangePage={this.changePage}
                 // margin={5}
-                // start={start}
-                // end={end}
+                start={start}
+                end={end}
                  
               /> 
             </Route>
@@ -202,6 +202,7 @@ class App extends Component {
             <Route path="/authorbooks/:authorId" component={AuthorBook} />
           </div>
         </Switch>
+        </Router>
         {/* <nav aria-label="Page navigation">
   <ul className="pagination">
     <li>
@@ -222,11 +223,11 @@ class App extends Component {
 </nav> */}
 
 
- <ul>
+ {/* <ul>
           {books.length && books.slice(start,end).map((item, i) => {
-              return <li className="comment"  >{item.title}</li>;
+              return <li className="comment" key={i}  >{item.title}{item.price}$</li>;
             })}
-        </ul>
+        </ul> */}
 {/* <Pagination /> */}
         <PaginationData
          pages={Math.ceil(count / offset)}

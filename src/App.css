@@ -46,3 +46,25 @@ img{
   height: 40px;
   width: 30px;
 }
+.pagi{
+  display: flex;
+  list-style:none;
+  justify-content: center
+}
+.pagi li {
+  height: 30px;
+  width: 30px;
+  line-height:30px;
+  background: #ccc;
+  text-align: center;
+  border:1px solid #fff;
+}
+.pagi li:first-child {
+  border-radius:5px 0 0 5px;
+}
+.pagi li:last-child {
+  border-radius:0 5px 5px 0px;
+}
+.pagi li.active{
+  background: #777;
+}

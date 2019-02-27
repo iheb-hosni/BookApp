@@ -5,7 +5,7 @@ class BooksList extends Component {
   render() {
     return (
       <ul>
-        {this.props.books.map((elem, key) => {
+        {this.props.books.length&&this.props.books.slice(this.props.start,this.props.end).map((elem, key) => {
           return (
             <BookListElem
               title={elem.title}
@@ -18,6 +18,9 @@ class BooksList extends Component {
               handleClick={this.props.handleClick}
               handleChange={this.props.handleChange}
               handleDelete={this.props.handleDelete}
+              start={this.props.start}
+              end={this.props.end}
+              books={this.props.books}
             />
           );
         })}
