@@ -12,6 +12,7 @@ class BooksList extends Component {
               author={elem.author}
               price={elem.price}
               isbn={elem.isbn}
+              image={elem.image}
               key={key}
               idx={key}
               id={elem.id}

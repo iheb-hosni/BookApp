@@ -52,38 +52,88 @@ componentDidMount() {
   // };
    
   onAddBook =(e) =>{
-    // e.preventDefault();
-    console.log(this.state.title)
-    axios.post(`http://localhost:3000/api/mybooks`
-    ,{
-     
-      title:this.state.title,
-      author:this.state.author,
-      price:this.state.price,
-      isbn:this.state.isbn,
-      description:this.state.description,
-      image:this.state.image
-    }).then(res=> axios.get("http://localhost:3000/api/mybooks")
-    .then(res=>this.props.updateBookList(res.data))
-    )
-    .catch(err => alert(err))
+    e.preventDefault();
+    const id=document.getElementById('select').value
 
-  }
-  // onAddBook=(book,id) =>{
+    console.log(id)
+    console.log(this.state.image)
+    const fd = new FormData();
+       fd.append('file' , this.state.image , this.state.image.name)
+       axios.post(`http://localhost:3000/api/photos/profil/upload`,fd
+       ).then(res=> axios.post(`http://localhost:3000/api/Authors/${id}/mybooks`
+       ,{
+     
+        title:this.state.title,
+        author:this.state.author,
+        price:this.state.price,
+        isbn:this.state.isbn,
+        description:this.state.description,
+        image:this.state.image
+       }
+       )
+
+     
+    ).then(res=>res.data)
     
+    .catch(err => alert(err))
+    // window.location.reload();
+  }
+  // handleSubmit = e => {
+  //   e.preventDefault();
+ 
+  //   const book = {
+  //     title:this.state.title,
+  //     author:this.state.author,
+  //     isbn:this.state.isbn,
+  //     price:this.state.price,
+  //     description:this.state.description,
+
+  //   };
+  //   const id=document.getElementById('select').value
   //   console.log(id)
-  //    axios.post(`http://localhost:3000/api/Authors/${id}/mybooks`,book)
+  //   this.props.onAddBook(book,id);
+  //   window.location.reload();
+  // };
+  // onAddBook=(book,id) =>{
+  //   console.log(id)
+  //    axios.post(`http://localhost:3000/api/Authors/${id}/mybooks`,
+  //    {
+  //       title:this.state.title,
+  //         author:this.state.author,
+  //         price:this.state.price,
+  //         isbn:this.state.isbn,
+  //         description:this.state.description,
+  //         image:this.state.image
+  //    }
+  //    )
   //    .then(res=> res.data )
   //   .catch(err => alert(err))
   // }
- handelAddFile =(e)=>{
+//  handelAddFile =(e)=>{
        
-      const fd = new FormData();
-       fd.append('file' , this.state.image , this.state.image.name)
-       axios.post(`http://localhost:3000/api/photos/profil/upload`,fd
-       ).then(res=>res.data)
-        .catch(err=>(err))
- }
+//       const fd = new FormData();
+//        fd.append('file' , this.state.image , this.state.image.name)
+//        axios.post(`http://localhost:3000/api/photos/profil/upload`,fd
+//        ).then(res=>res.data)
+//         .catch(err=>(err))
+//  }
+// handleSubmit = e => {
+//   e.preventDefault();
+
+//   const book = {
+//     title: this.state.title,
+//     author: this.state.author,
+//     isbn: this.state.isbn,
+//     price: this.state.price,
+//     description: this.state.description,
+//     image:this.state.image
+//   };
+//   const id=document.getElementById('select').value
+//   console.log(id)
+//   this.props.onAddBook(book,id);
+
+//   window.location.reload();
+// };
   handleChange = idx => {
     const selectedBook = this.state.books[idx];
 
@@ -136,13 +186,15 @@ componentDidMount() {
             name="title"
             placeholder="please enter the title"
             onChange={this.handleInputChange}
-            // value={this.state.title}
+            value={this.state.title}
           />
         </label>
-        <br />
+        <br/>
         <label>
           Author:
-          <select id="select" onChange={this.selectChange}>
+          <select name="author" id="select" onChange={this.selectChange} 
+           
+          >
          {this.state.authorData.map(el=><option value={el.id}>{el.name} {el.familyname}</option>)}
             {/* // type="text"
             // name="author"
@@ -192,7 +244,6 @@ componentDidMount() {
           onChange={this.handleFileChange}
           />
         </label>
-        <button type="button" className="btn btn-primary" onClick={this.handelAddFile}>Upload</button>
         <br />
         <input type="submit" className="btn btn-primary" />
         <input type="button" className="btn btn-primary" value="edit" onClick={this.handleEdit} />

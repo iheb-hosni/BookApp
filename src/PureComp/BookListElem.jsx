@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 
 class BookListElem extends Component {
-  render() {
-    return (
+    
+   render() {
+     var image=this.props.image
+     return (
+       
       <div>
       <li>
       
@@ -11,8 +14,14 @@ class BookListElem extends Component {
               <li className="comment" key={i}  >{item.title} {item.price}$  {item.isbn} </li>
               </div>
             })} */}
-        {this.props.idx} | {this.props.title}  |
-        {this.props.price}$ |{this.props.isbn}|{<img src="http://localhost:3000/api/photos/profil/download/La Promesse.jpg" alt="bookpicture"/>}
+        {/* {this.props.idx} <br/> */}
+        
+        title: {this.props.title} <br/>
+        price :{this.props.price}$  <br/>
+        {/* image :{this.props.image} <br/> */} <br/>
+      
+        <img  src={'http://localhost:3000/api/photos/profil/download/' +image}  alt="bookpicture"/>
+        <br/>
         
         <button className="btn"
           onClick={() => {

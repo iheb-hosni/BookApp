@@ -41,8 +41,8 @@ ul{
   list-style: none;
 }
 img{
-  height: 40px;
-  width: 30px;
+  height: 120px;
+  width: 80px;
 }
 .pagi{
   display: flex;
@@ -70,4 +70,7 @@ img{
 }
 a{
   text-decoration: none !important
+}
+a:focus{
+  color: red;
 }

@@ -24,7 +24,7 @@ class App extends Component {
       isbn: "",
       description: "",
       id: "",
-      // image:""
+      image:"",
       totalPages: "",
       currentPage: 0,
     count: 0,
@@ -37,6 +37,7 @@ class App extends Component {
     // this.deleteBook=this.deleteBook.bind(this)
     this.handleChange = this.handleChange.bind(this)
     // this.handleAddAuthor=this.handleAddAuthor.bind(this)
+    // this.onAddBook=this.onAddBook.bind(this)
   }
 
   async componentDidMount() {
@@ -64,6 +65,7 @@ class App extends Component {
           price: prop.price,
           description: prop.description,
           id: prop.id,
+          image:prop.image
 
         };
         books.push(book);
@@ -93,6 +95,13 @@ class App extends Component {
   //   booksCopy.splice(id, 1);
 
   //   this.setState({ books: booksCopy });
+  // }
+  // onAddBook=(book,id) =>{
+  //   console.log(id)
+  //   console.log(book)
+  //    axios.post(`http://localhost:3000/api/Authors/${id}/mybooks`,book)
+  //    .then(res=> res.data )
+  //   .catch(err => alert(err))
   // }
   handleChange = idx => {
     const selectedBook = this.state.books[idx];
@@ -183,6 +192,7 @@ class App extends Component {
                 // current={currentPage}
                 // onChangePage={this.changePage}
                 // margin={5}
+                
                 start={start}
                 end={end}
               /> 
@@ -190,7 +200,7 @@ class App extends Component {
               
             </Route>
             <Route  path="/new" component={NewBook}>
-              <NewBook updateBookList={(value) => this.updateBookList(value)} />
+              <NewBook updateBookList={(value) => this.updateBookList(value)}/>
             </Route>
 
 
